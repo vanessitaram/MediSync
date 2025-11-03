@@ -10,8 +10,7 @@ namespace MediSync.Models
         [Key]
         public int Id_Paciente { get; set; }
 
-
-     [Column(TypeName = "nvarchar(100)")]
+        [Column(TypeName = "nvarchar(100)")]
         public string? Nombre { get; set; } = string.Empty;
 
         public int? Edad { get; set; }
@@ -22,11 +21,21 @@ namespace MediSync.Models
         [Column(TypeName = "bigint")]
         public long? Telefono { get; set; }
 
-   
-
         [Column(TypeName = "nvarchar(100)")]
         public string? Correo { get; set; }
 
+        [Column(TypeName = "nvarchar(200)")]
+        [Required]
+        public string Contrasena { get; set; } = string.Empty;
+
+        [Column(TypeName = "nvarchar(100)")]
+        public string? NombreContacto { get; set; }
+
+        [Column(TypeName = "bigint")]
+        public long? TelefonoContacto { get; set; }
+
+        [Column(TypeName = "nvarchar(50)")]
+        public string? ParentescoContacto { get; set; }
 
         public DateTime Fecha_Registro { get; set; } = DateTime.Now;
     }

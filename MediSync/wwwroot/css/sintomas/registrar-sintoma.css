@@ -1,0 +1,309 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7faff;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* CONTENEDOR GENERAL */
+.sintoma-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CANVAS DE FONDO */
+canvas#moleculeCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 30%, #eef4ff 0%, #f8faff 80%);
+}
+
+/* PANEL PRINCIPAL */
+.sintoma-panel {
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+    padding: 30px 40px;
+    width: 700px;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* HEADER DEL PANEL */
+.header-flotante {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #2A8DDE15, #6C3ECF15);
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+}
+
+    .header-info span {
+        font-size: 13px;
+        color: #666;
+    }
+
+    .header-info strong {
+        font-size: 15px;
+        color: #6C3ECF;
+        font-weight: 600;
+    }
+
+.historial-icon {
+    font-size: 18px;
+    background: linear-gradient(135deg, #2A8DDE, #8B2BCB);
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+    .historial-icon:hover {
+        transform: scale(1.1);
+    }
+
+/* ENCABEZADO DEL FORM */
+.sintoma-header {
+    text-align: center;
+}
+
+    .sintoma-header h1 {
+        color: #6C3ECF;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .sintoma-header p {
+        color: #777;
+        font-size: 14px;
+    }
+
+/* FORMULARIO */
+.sintoma-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 25px;
+    align-items: start;
+}
+
+    .sintoma-form label {
+        font-weight: 600;
+        color: #333;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .sintoma-form textarea {
+        grid-column: span 2;
+        border-radius: 15px;
+        border: 1.5px solid #ddd;
+        padding: 14px 16px;
+        font-size: 14px;
+        resize: none;
+        outline: none;
+        min-height: 130px;
+        transition: 0.3s ease;
+    }
+
+        .sintoma-form textarea:focus {
+            border-color: #6C3ECF;
+            box-shadow: 0 0 8px rgba(108, 62, 207, 0.2);
+        }
+
+/* ESTADO */
+.estado-box {
+    grid-column: span 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #f4ecff, #eef4ff);
+    border-radius: 15px;
+    padding: 15px 20px;
+}
+
+.estado-text .label {
+    color: #666;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.estado-text strong {
+    color: #6C3ECF;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.pulse {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #8B2BCB;
+    box-shadow: 0 0 0 0 rgba(139, 43, 203, 0.5);
+    animation: pulseAnim 1.6s infinite;
+}
+
+@keyframes pulseAnim {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(139, 43, 203, 0.4);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(139, 43, 203, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(139, 43, 203, 0);
+    }
+}
+
+/* BOTÓN */
+.btn-registrar {
+    grid-column: span 2;
+    background: linear-gradient(135deg, #2A8DDE, #6C3ECF, #8B2BCB);
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}
+
+    .btn-registrar:hover {
+        transform: scale(1.03);
+        background: linear-gradient(135deg, #6C3ECF, #8B2BCB);
+    }
+
+/* ALERTA */
+.alerta {
+    margin-top: 10px;
+    background: #f5ecff;
+    color: #6C3ECF;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .sintoma-panel {
+        padding: 25px 20px;
+        width: 90%;
+    }
+
+    .sintoma-form {
+        grid-template-columns: 1fr;
+    }
+}
+/* MODAL HISTORIAL */
+.modal-historial {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 18px;
+    padding: 30px 40px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-content h3 {
+    color: #6C3ECF;
+    margin-bottom: 15px;
+}
+
+.modal-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+    text-align: left;
+}
+
+    .modal-content ul li {
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        color: #333;
+    }
+
+.modal-content button {
+    background: linear-gradient(135deg, #2A8DDE, #8B2BCB);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+    .modal-content button:hover {
+        transform: scale(1.05);
+        background: linear-gradient(135deg, #6C3ECF, #8B2BCB);
+    }

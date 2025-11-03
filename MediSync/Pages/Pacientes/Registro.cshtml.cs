@@ -1,46 +1,70 @@
+using MediSync.Data;
+using MediSync.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MediSync.Models;
-using System.Net.Http.Json;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MediSync.Pages.PacientesPages
 {
     public class RegistroModel : PageModel
     {
-        private readonly IHttpClientFactory _clientFactory;
-        public string Mensaje { get; set; } = string.Empty;
+        private readonly MediSyncContext _context;
 
-        public RegistroModel(IHttpClientFactory clientFactory)
+        public RegistroModel(MediSyncContext context)
         {
-            _clientFactory = clientFactory;
+            _context = context;
         }
 
-        public async Task<IActionResult> OnPostAsync(string Nombre, int Edad, string Sexo, int Telefono, string Correo)
+        [BindProperty]
+        public string Mensaje { get; set; } = string.Empty;
+
+        public void OnGet() { }
+
+        public async Task<IActionResult> OnPostAsync(
+            string Nombre, int Edad, string Sexo, long Telefono, string? Correo,
+            string Contrasena, string? NombreContacto, long? TelefonoContacto, string? ParentescoContacto)
         {
-            var cliente = _clientFactory.CreateClient();
-            var paciente = new MediSync.Models.Paciente
+            if (string.IsNullOrEmpty(Nombre) || string.IsNullOrEmpty(Contrasena))
+            {
+                Mensaje = "Por favor completa todos los campos obligatorios.";
+                return Page();
+            }
+
+            var existente = _context.Pacientes.FirstOrDefault(p => p.Telefono == Telefono || p.Correo == Correo);
+            if (existente != null)
+            {
+                Mensaje = "Ya existe un paciente registrado con ese teléfono o correo.";
+                return Page();
+            }
+
+            var paciente = new Paciente
             {
                 Nombre = Nombre,
                 Edad = Edad,
                 Sexo = Sexo,
                 Telefono = Telefono,
-                Correo = Correo
+                Correo = Correo,
+                Contrasena = HashPassword(Contrasena),
+                NombreContacto = NombreContacto,
+                TelefonoContacto = TelefonoContacto,
+                ParentescoContacto = ParentescoContacto,
+                Fecha_Registro = DateTime.Now
             };
 
-            var resp = await cliente.PostAsJsonAsync("http://localhost:5289/api/paciente/registrar", paciente);
+            _context.Pacientes.Add(paciente);
+            await _context.SaveChangesAsync();
 
-            if (resp.IsSuccessStatusCode)
-            {
-                Mensaje = "Registro completado correctamente.";
-            }
-            else
-            {
-                var error = await resp.Content.ReadAsStringAsync();
-                Mensaje = $"Ocurrió un error al registrar al paciente: {error}";
-            }
-
-
+            Mensaje = "Registro exitoso. Tu información fue guardada correctamente.";
             return Page();
+        }
+
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(password);
+            var hash = sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
         }
     }
 }

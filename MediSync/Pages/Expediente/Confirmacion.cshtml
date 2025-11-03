@@ -1,0 +1,42 @@
+﻿@page
+@model MediSync.Pages.Expediente.ConfirmacionModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Confirmación del Expediente";
+}
+
+<link rel="stylesheet" href="~/css/expediente/confirmacion.css" />
+
+<div class="confirmacion-container">
+    <canvas id="moleculeCanvas"></canvas>
+
+    <div class="confirmacion-panel">
+        <div class="animacion-exito">
+            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <circle class="circle" cx="60" cy="60" r="54" />
+                <polyline class="check" points="35,63 52,80 87,45" />
+            </svg>
+        </div>
+
+        <h2>¡Expediente registrado con éxito!</h2>
+        <p class="mensaje">
+            Tu expediente ha sido enviado y el médico ha sido notificado.<br>
+            Por favor, espera mientras revisa tus síntomas.
+        </p>
+
+        @if (!string.IsNullOrEmpty(Model.Prediagnostico))
+        {
+            <div class="prediagnostico">
+                <h3>Prediagnóstico IA</h3>
+                <div class="prediagnostico-texto">@Model.Prediagnostico</div>
+            </div>
+        }
+
+        <div class="acciones">
+            <a asp-page="/Expediente/Crear" class="btn btn-primario">Registrar otro expediente</a>
+            <a asp-page="/Pacientes/Login" class="btn btn-secundario">Cerrar sesión</a>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/expediente/confirmacion.js"></script>

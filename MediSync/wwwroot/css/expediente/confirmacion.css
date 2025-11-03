@@ -1,0 +1,207 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f9fbff;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* CONTENEDOR */
+.confirmacion-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0; /* margen visual arriba/abajo */
+    box-sizing: border-box;
+}
+
+canvas#moleculeCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* PANEL PRINCIPAL */
+.confirmacion-panel {
+    z-index: 2;
+    width: 600px;
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    padding: 35px 40px;
+    text-align: center;
+    animation: fadeIn 0.9s ease;
+    margin: 20px 0; /* separa del borde superior e inferior */
+}
+
+@keyframes fadeIn {
+    from {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ANIMACIÓN DE ÉXITO */
+.animacion-exito {
+    margin-bottom: 20px;
+}
+
+    .animacion-exito svg {
+        width: 95px;
+        height: 95px;
+    }
+
+.circle {
+    fill: none;
+    stroke: #2A8DDE;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 339;
+    stroke-dashoffset: 339;
+    animation: draw-circle 1s ease forwards;
+}
+
+.check {
+    fill: none;
+    stroke: #6C3ECF;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: draw-check 0.6s ease 1s forwards;
+}
+
+@keyframes draw-circle {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes draw-check {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* TITULO Y MENSAJE */
+.confirmacion-panel h2 {
+    color: #6C3ECF;
+    font-weight: 600;
+    margin: 10px 0;
+    font-size: 22px;
+}
+
+.mensaje {
+    color: #444;
+    font-size: 15px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* PREDIAGNOSTICO */
+.prediagnostico {
+    opacity: 0;
+    transform: translateY(40px);
+    background: linear-gradient(135deg, #f2efff, #e9f3ff);
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow: 0 4px 20px rgba(140, 62, 207, 0.1);
+    margin-top: 10px;
+    text-align: left;
+    transition: all 0.8s ease;
+    max-height: 240px;
+}
+
+    .prediagnostico.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .prediagnostico h3 {
+        text-align: center;
+        color: #6C3ECF;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+.prediagnostico-texto {
+    color: #333;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-line;
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #8B2BCB #f2efff;
+}
+
+    .prediagnostico-texto::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .prediagnostico-texto::-webkit-scrollbar-thumb {
+        background: #8B2BCB;
+        border-radius: 10px;
+    }
+
+/* BOTONES */
+.acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 15px;
+}
+
+.btn-primario {
+    background: linear-gradient(135deg, #2A8DDE, #6C3ECF, #8B2BCB);
+    color: #fff;
+}
+
+    .btn-primario:hover {
+        transform: scale(1.03);
+        background: linear-gradient(135deg, #6C3ECF, #8B2BCB);
+    }
+
+.btn-secundario {
+    background: #eaeaea;
+    color: #444;
+}
+
+    .btn-secundario:hover {
+        background: #ddd;
+    }
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+    .confirmacion-panel {
+        padding: 25px 20px;
+        margin: 10px;
+    }
+}

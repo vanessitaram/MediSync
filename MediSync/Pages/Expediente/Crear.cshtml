@@ -1,0 +1,72 @@
+﻿@page
+@model MediSync.Pages.Expediente.CrearModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Registrar Síntoma";
+}
+
+<link rel="stylesheet" href="~/css/sintomas/registrar-sintoma.css" />
+
+<div class="sintoma-container">
+    <canvas id="moleculeCanvas"></canvas>
+
+    <div class="sintoma-panel">
+        <div class="header-flotante">
+            <div class="header-info">
+                <span>Paciente</span>
+                <strong>@Model.NombrePaciente</strong>
+            </div>
+
+            <div class="historial-icon" title="Ver historial" id="openHistorial">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
+                    <path d="M12 8v5l3.5 2.1.8-1.2-2.8-1.7V8h-1.5zm0-6C6.48 2 2 6.48 2 12h2a8 8 0 1 1 8 8v2a10 10 0 1 0 0-20zm-1 18H7v2h4v-2z" />
+                </svg>
+            </div>
+        </div>
+
+
+        <!-- TITULO -->
+        <div class="sintoma-header">
+            <h1>Registro de Síntomas</h1>
+            <p>Describe lo que estás sintiendo o los síntomas que observas</p>
+        </div>
+
+        <!-- FORMULARIO -->
+        <form method="post" class="sintoma-form">
+            <label for="Sintomas">Síntomas detectados</label>
+            <textarea id="Sintomas"
+                      asp-for="NuevoExpediente.Sintomas"
+                      placeholder="Ejemplo: Dolor de cabeza, fiebre, mareo..."
+                      rows="5"></textarea>
+
+            <div class="estado-box">
+                <div class="estado-text">
+                    <span class="label">Estado actual:</span>
+                    <strong>En proceso</strong>
+                </div>
+                <div class="pulse"></div>
+            </div>
+
+            <button type="submit" class="btn-registrar">Registrar síntoma</button>
+        </form>
+
+        @if (!string.IsNullOrEmpty(Model.Mensaje))
+        {
+            <div class="alerta">@Model.Mensaje</div>
+        }
+    </div>
+</div>
+<div id="modalHistorial" class="modal-historial">
+    <div class="modal-content">
+        <h3>Historial de Síntomas</h3>
+        <ul>
+            <li><strong>12/10/2025:</strong> Dolor de cabeza, fatiga leve</li>
+            <li><strong>03/10/2025:</strong> Tos seca, temperatura 38°C</li>
+            <li><strong>24/09/2025:</strong> Dolor muscular y náuseas</li>
+        </ul>
+        <button id="closeHistorial">Cerrar</button>
+    </div>
+</div>
+
+<script src="~/js/sintomas/registrar-sintoma.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

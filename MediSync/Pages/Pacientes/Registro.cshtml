@@ -1,0 +1,48 @@
+﻿@page
+@model MediSync.Pages.PacientesPages.RegistroModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Registro de paciente";
+}
+
+<link rel="stylesheet" href="~/css/login/login.css" />
+
+<div class="login-wrapper">
+    <div class="login-left">
+        <div class="login-left-content">
+            <img src="~/lib/images/logob.png" alt="MediSync" class="login-logo" />
+            <h1>MediSync</h1>
+            <p>Tu salud, sincronizada con tecnología.</p>
+        </div>
+    </div>
+
+    <div class="login-right">
+        <div class="login-card">
+            <h2>Crear cuenta</h2>
+            <p>Completa tus datos</p>
+
+            <form method="post" class="login-form">
+                <input class="form-control mb-2" placeholder="Nombre completo" name="Nombre" />
+                <input class="form-control mb-2" placeholder="Edad" name="Edad" type="number" />
+                <input class="form-control mb-2" placeholder="Sexo (M/F)" name="Sexo" />
+                <input class="form-control mb-2" placeholder="Teléfono" name="Telefono" />
+                <input class="form-control mb-2" placeholder="Correo (opcional)" name="Correo" />
+
+                <button type="submit" class="btn-login">Registrar</button>
+
+                <p class="register-text">
+                    ¿Ya tienes cuenta?
+                    <a asp-page="Login">Inicia sesión</a>
+                </p>
+            </form>
+
+            @if (!string.IsNullOrEmpty(Model.Mensaje))
+            {
+                <div class="msg">@Model.Mensaje</div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/js/transition.js"></script>

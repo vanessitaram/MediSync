@@ -1,5 +1,4 @@
-﻿// fondo molecular (igual que antes)
-const canvas = document.getElementById("moleculeCanvas");
+﻿const canvas = document.getElementById("moleculeCanvas");
 const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;

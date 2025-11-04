@@ -1,4 +1,5 @@
-﻿using MediSync.Data;
+﻿
+using MediSync.Data;
 using MediSync.Models;
 using MediSync.Services;
 using Microsoft.AspNetCore.Mvc;

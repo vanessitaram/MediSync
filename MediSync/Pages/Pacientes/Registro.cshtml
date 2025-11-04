@@ -1,0 +1,75 @@
+﻿@page
+@model MediSync.Pages.PacientesPages.RegistroModel
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Registro de paciente";
+}
+
+<link rel="stylesheet" href="~/css/login/login.css" />
+
+<div class="login-wrapper">
+    <div class="login-left">
+        <div class="login-left-content">
+            <img src="~/lib/images/logob.png" alt="MediSync" class="login-logo" />
+            <h1>MediSync</h1>
+            <p>Tu salud, sincronizada con tecnología.</p>
+        </div>
+    </div>
+
+    <div class="login-right">
+        <div class="login-card">
+            <h2>Crear cuenta</h2>
+            <p>Completa tus datos</p>
+
+            <form method="post" class="login-form" id="registroForm">
+                <input class="form-control mb-2" id="Nombre" placeholder="Nombre completo" name="Nombre" required />
+                <input class="form-control mb-2" id="Edad" placeholder="Edad" name="Edad" type="number" required />
+                <input class="form-control mb-2" id="Sexo" placeholder="Sexo (M/F)" name="Sexo" required />
+                <input class="form-control mb-2" id="Telefono" placeholder="Teléfono" name="Telefono" required />
+                <input class="form-control mb-2" id="Correo" placeholder="Correo (opcional)" name="Correo" type="email" />
+
+                <div class="password-container">
+                    <input class="form-control mb-2" placeholder="Contraseña" name="Contrasena" id="Contrasena" type="password" required minlength="8" />
+                    <button type="button" class="toggle-pass" data-target="Contrasena">👁</button>
+                </div>
+
+                <div class="password-container">
+                    <input class="form-control mb-3" placeholder="Confirmar contraseña" name="ConfirmarContrasena" id="ConfirmarContrasena" type="password" required />
+                    <button type="button" class="toggle-pass" data-target="ConfirmarContrasena">👁</button>
+                </div>
+
+
+                <h5 class="mt-3 mb-2 text-primary">Contacto de Emergencia</h5>
+                <input class="form-control mb-2" id="NombreContacto" placeholder="Nombre del contacto" name="NombreContacto" required />
+                <input class="form-control mb-2" id="TelefonoContacto" placeholder="Teléfono del contacto" name="TelefonoContacto" required />
+                <input class="form-control mb-3" id="ParentescoContacto" placeholder="Parentesco" name="ParentescoContacto" required />
+
+                <button type="submit" class="btn-login">Registrar</button>
+
+                <p class="register-text">
+                    ¿Ya tienes cuenta?
+                    <a asp-page="Login">Inicia sesión</a>
+                </p>
+            </form>
+
+            @if (!string.IsNullOrEmpty(Model.Mensaje))
+            {
+                <div class="msg">@Model.Mensaje</div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Modal de éxito -->
+<div id="successModal" class="modal">
+    <div class="modal-content">
+        <h3>¡Registro exitoso! </h3>
+        <p>Tu cuenta se ha creado correctamente. Serás redirigido al inicio de sesión.</p>
+        <button id="btnIrLogin">Ir a iniciar sesión</button>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/css/login/modal.css" />
+<script src="~/js/login/transition.js"></script>
+<script src="~/js/login/validacionRegistro.js"></script>

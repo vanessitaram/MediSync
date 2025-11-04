@@ -1,0 +1,56 @@
+﻿@page
+@model MediSync.Pages.Pacientes.LoginModel
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/login/login.css" />
+
+<div class="login-wrapper">
+    <div class="login-left">
+        <div class="login-left-content">
+            <img src="~/lib/images/logob.png" alt="MediSync" class="login-logo" />
+            <h1>MediSync</h1>
+            <p>Conecta. Diagnostica. Sincroniza tu salud.</p>
+        </div>
+    </div>
+
+    <div class="login-right">
+        <div class="login-card">
+            <h2>Bienvenido</h2>
+            <p>Accede a tu cuenta</p>
+
+            <form method="post" class="login-form" id="loginForm">
+                <label for="Correo">Correo (opcional)</label>
+                <input type="email" id="Correo" name="Correo" placeholder="ejemplo@correo.com" />
+
+                <label for="Telefono">Teléfono</label>
+                <input type="text" id="Telefono" name="Telefono" placeholder="Ingresa tu número" maxlength="10" />
+
+                <label for="Contrasena">Contraseña</label>
+                <div class="password-container">
+                    <input type="password" id="Contrasena" name="Contrasena" placeholder="Ingresa tu contraseña" required />
+                    <button type="button" class="toggle-pass" data-target="Contrasena">👁</button>
+                </div>
+
+                <button type="submit" class="btn-login">Iniciar sesión</button>
+
+                <div class="divider">o</div>
+
+                <a class="btn-google" href="/auth/login-google">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
+                    Iniciar sesión con Google
+                </a>
+
+                <p class="register-text">
+                    ¿No tienes cuenta? <a asp-page="Registro">Regístrate aquí</a>
+                </p>
+            </form>
+
+            <div id="alertaLogin" class="alerta"></div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/login/login.js"></script>
+<script src="~/js/transition.js"></script>

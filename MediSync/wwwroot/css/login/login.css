@@ -1,21 +1,16 @@
-﻿/* ======== LOGIN MEDISYNC ======== */
-body {
+﻿body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
-    height: 100vh;
     display: flex;
 }
 
-/* CONTENEDOR GENERAL */
 .login-wrapper {
     display: flex;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-/* SECCIÓN IZQUIERDA - FONDO GRADIENTE */
 .login-left {
     flex: 1.2;
     background: linear-gradient(135deg, #2A8DDE, #6C3ECF, #8B2BCB);
@@ -64,7 +59,6 @@ body {
     }
 }
 
-/* LOGO Y TEXTO */
 .login-left-content {
     text-align: center;
     z-index: 2;
@@ -88,13 +82,14 @@ body {
     margin-top: 8px;
 }
 
-/* SECCIÓN DERECHA - FORMULARIO */
 .login-right {
     flex: 1;
     background: #fff;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    overflow-y: auto;
+    padding: 50px 0;
 }
 
 .login-card {
@@ -132,7 +127,6 @@ body {
     font-size: 14px;
 }
 
-/* FORMULARIO */
 .login-form {
     display: flex;
     flex-direction: column;
@@ -159,7 +153,6 @@ body {
             box-shadow: 0 0 0 3px rgba(108, 62, 207, 0.1);
         }
 
-/* BOTONES */
 .btn-login {
     background: linear-gradient(135deg, #2A8DDE, #6C3ECF, #8B2BCB);
     color: white;
@@ -203,7 +196,6 @@ body {
         right: 0;
     }
 
-/* GOOGLE */
 .btn-google {
     display: flex;
     align-items: center;
@@ -230,7 +222,6 @@ body {
         transform: scale(1.02);
     }
 
-/* TEXTO DE REGISTRO */
 .register-text {
     text-align: center;
     font-size: 14px;
@@ -247,7 +238,7 @@ body {
         .register-text a:hover {
             text-decoration: underline;
         }
-/* ===== EFECTO TRANSICIÓN ENTRE LOGIN Y REGISTRO ===== */
+
 body.transitioning {
     overflow: hidden;
 }
@@ -255,6 +246,26 @@ body.transitioning {
 .slide-out {
     animation: slideOut 0.6s ease forwards;
 }
+.password-container {
+    position: relative;
+}
+
+.toggle-pass {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #6C3ECF;
+    transition: 0.3s ease;
+}
+
+    .toggle-pass:hover {
+        transform: translateY(-50%) scale(1.2);
+    }
 
 @keyframes slideOut {
     from {
@@ -284,7 +295,6 @@ body.transitioning {
     }
 }
 
-/* RESPONSIVO */
 @media (max-width: 950px) {
     .login-wrapper {
         flex-direction: column;
@@ -296,7 +306,7 @@ body.transitioning {
     }
 
     .login-right {
-        height: 65vh;
+        height: auto;
     }
 
     .login-card {

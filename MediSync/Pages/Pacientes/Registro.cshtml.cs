@@ -10,22 +10,21 @@ namespace MediSync.Pages.PacientesPages
     public class RegistroModel : PageModel
     {
         private readonly MediSyncContext _context;
+        public string Mensaje { get; set; } = string.Empty;
 
         public RegistroModel(MediSyncContext context)
         {
             _context = context;
         }
 
-        [BindProperty]
-        public string Mensaje { get; set; } = string.Empty;
-
         public void OnGet() { }
 
         public async Task<IActionResult> OnPostAsync(
-            string Nombre, int Edad, string Sexo, long Telefono, string? Correo,
-            string Contrasena, string? NombreContacto, long? TelefonoContacto, string? ParentescoContacto)
+            string Nombre, int Edad, string Sexo, long Telefono,
+            string? Correo, string Contrasena,
+            string? NombreContacto, long? TelefonoContacto, string? ParentescoContacto)
         {
-            if (string.IsNullOrEmpty(Nombre) || string.IsNullOrEmpty(Contrasena))
+            if (string.IsNullOrWhiteSpace(Nombre) || string.IsNullOrWhiteSpace(Contrasena))
             {
                 Mensaje = "Por favor completa todos los campos obligatorios.";
                 return Page();
@@ -55,16 +54,15 @@ namespace MediSync.Pages.PacientesPages
             _context.Pacientes.Add(paciente);
             await _context.SaveChangesAsync();
 
-            Mensaje = "Registro exitoso. Tu información fue guardada correctamente.";
+            Mensaje = "Registro exitoso";
             return Page();
         }
 
         private string HashPassword(string password)
         {
             using var sha256 = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha256.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return BitConverter.ToString(bytes).Replace("-", "").ToLower();
         }
     }
 }

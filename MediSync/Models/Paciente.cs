@@ -27,6 +27,7 @@ namespace MediSync.Models
         [Column("Contraseña", TypeName = "nvarchar(255)")]
         public string? Contrasena { get; set; }
 
+
         [Column(TypeName = "nvarchar(100)")]
         public string? NombreContacto { get; set; }
 

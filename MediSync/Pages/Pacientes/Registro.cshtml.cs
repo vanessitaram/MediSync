@@ -48,6 +48,7 @@ namespace MediSync.Pages.PacientesPages
                 NombreContacto = NombreContacto,
                 TelefonoContacto = TelefonoContacto,
                 ParentescoContacto = ParentescoContacto,
+
                 Fecha_Registro = DateTime.Now
             };
 

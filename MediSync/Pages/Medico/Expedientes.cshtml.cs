@@ -1,8 +1,8 @@
 using MediSync.Data;
+using MediSync.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MediSync.Pages.Medico
 {
@@ -10,23 +10,32 @@ namespace MediSync.Pages.Medico
     {
         private readonly MediSyncContext _context;
 
-        public MediSync.Models.Medico Medico { get; set; }
-        public List<MediSync.Models.Expediente> Expedientes { get; set; } = new();
+        public Models.Medico Medico { get; set; } = new();
+        public List<Models.Expediente> Expedientes { get; set; } = new();
 
         public ExpedientesModel(MediSyncContext context)
         {
             _context = context;
         }
 
-        public void OnGet(int idMedico)
+        public async Task<IActionResult> OnGetAsync()
         {
-            Medico = _context.Medicos.FirstOrDefault(m => m.Id_Medico == idMedico);
+            var idMedico = HttpContext.Session.GetInt32("IdMedico");
+            if (idMedico == null)
+                return RedirectToPage("/Pacientes/Login");
 
-            Expedientes = _context.Expedientes
-                .Where(e => e.Id_Medico == idMedico)
+            Medico = await _context.Medicos
+                .Include(m => m.Departamento)
+                .FirstOrDefaultAsync(m => m.Id_Medico == idMedico);
+
+            Expedientes = await _context.Expedientes
                 .Include(e => e.Paciente)
                 .Include(e => e.Departamento)
-                .ToList();
+                .Where(e => e.Id_Medico == idMedico)
+                .OrderByDescending(e => e.Fecha_Ingreso)
+                .ToListAsync();
+
+            return Page();
         }
     }
 }

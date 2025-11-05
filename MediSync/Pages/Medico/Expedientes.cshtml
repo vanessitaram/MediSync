@@ -5,33 +5,44 @@
     ViewData["Title"] = "Panel Médico";
 }
 
-<link rel="stylesheet" href="~/css/expediente/confirmacion.css" />
+<link rel="stylesheet" href="~/css/medico/panel.css" />
 
-<div class="panel-medico">
-    <h1>Bienvenido Dr. @Model.Medico.Nombre</h1>
-    <h3>Pacientes recientes</h3>
+<div class="dashboard-container">
+    <header class="dashboard-header">
+        <div class="header-content">
+            <img src="~/lib/images/logob.png" alt="MediSync" class="logo-header" />
+            <div>
+                <h1 class="titulo">Panel Médico</h1>
+                <p class="subtitulo">Bienvenido(a), <strong>@Model.Medico.Nombre</strong></p>
+            </div>
+        </div>
+    </header>
 
-    <table class="tabla-expedientes">
-        <thead>
-            <tr>
-                <th>Paciente</th>
-                <th>Área</th>
-                <th>Síntomas</th>
-                <th>Prediagnóstico</th>
-                <th>Fecha</th>
-            </tr>
-        </thead>
-        <tbody>
+    <section class="content-section">
+        <h2 class="section-title">Pacientes recientes</h2>
+
+        <div class="cards-container">
             @foreach (var exp in Model.Expedientes)
-        {
-            <tr>
-                <td>@exp.Paciente?.Nombre</td>
-                <td>@exp.Departamento?.Nombre</td>
-                <td>@exp.Sintomas</td>
-                <td>@exp.Prediagnostico</td>
-                <td>@exp.Fecha_Ingreso.ToShortDateString()</td>
-                </tr>
-        }
-        </tbody>
-    </table>
+            {
+                <div class="card-expediente">
+                    <div class="card-icon">??</div>
+
+                    <h3>@exp.Paciente?.Nombre</h3>
+
+                    <div class="card-body">
+                        <p><strong>Área:</strong> <span>@exp.Departamento?.Nombre</span></p>
+                        <p><strong>Síntomas:</strong> <span>@exp.Sintomas</span></p>
+                        <p><strong>Prediagnóstico:</strong> <span>@exp.Prediagnostico</span></p>
+                        <p><strong>Fecha:</strong> <span>@exp.Fecha_Ingreso.ToShortDateString()</span></p>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="button">Ver expediente</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
 </div>
+
+<script src="~/js/medico/panel.js"></script>

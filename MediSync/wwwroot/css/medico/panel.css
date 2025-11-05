@@ -1,0 +1,187 @@
+﻿:root {
+    --azul1: #447cdb;
+    --azul2: #5e4ed2;
+    --azul3: #6d3ecf;
+    --fondo: #f5f6fa;
+    --blanco: #ffffff;
+    --texto: #1a1a1a;
+    --textoSec: #666;
+    --borde: #e1e4ea;
+}
+
+/* ===== GENERAL ===== */
+body {
+    background: var(--fondo);
+    font-family: 'Poppins', sans-serif;
+    color: var(--texto);
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== HEADER ===== */
+.dashboard-header {
+    background: linear-gradient(90deg, var(--azul1), var(--azul2), var(--azul3));
+    color: var(--blanco);
+    padding: 0.8rem 2rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+}
+
+.logo-header {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    margin-right: 1rem;
+}
+
+.dashboard-header .titulo {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.dashboard-header .subtitulo {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* ===== CONTENIDO ===== */
+.content-section {
+    padding: 1.5rem 2rem;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--azul3);
+    margin-bottom: 1.5rem;
+}
+
+/* ===== TARJETAS HORIZONTALES ===== */
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card-expediente {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    background: var(--blanco);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    border: 1px solid var(--borde);
+    box-shadow: 0 4px 12px rgba(93, 62, 207, 0.08);
+    transition: 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+    .card-expediente::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 6px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--azul2), var(--azul3));
+        border-top-left-radius: 14px;
+        border-bottom-left-radius: 14px;
+    }
+
+    .card-expediente:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(93, 62, 207, 0.15);
+    }
+
+/* Ícono lateral */
+.card-icon {
+    flex-shrink: 0;
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--azul1), var(--azul3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+/* Información del paciente */
+.card-info {
+    flex-grow: 1;
+}
+
+    .card-info h3 {
+        margin: 0;
+        color: var(--azul3);
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+    }
+
+    .card-info p {
+        margin: 0.2rem 0;
+        color: var(--textoSec);
+        font-size: 0.93rem;
+    }
+
+    .card-info span {
+        color: var(--texto);
+        font-weight: 500;
+    }
+
+/* Botón lateral derecho */
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+    .card-footer button {
+        background: linear-gradient(90deg, var(--azul2), var(--azul3));
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+        .card-footer button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 750px) {
+    .card-expediente {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card-footer {
+        justify-content: flex-start;
+        margin-top: 0.8rem;
+    }
+
+    .content-section {
+        padding: 1rem;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem 1.2rem;
+    }
+
+    .logo-header {
+        margin-bottom: 0.5rem;
+    }
+}

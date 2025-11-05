@@ -1,0 +1,37 @@
+@page
+@model MediSync.Pages.Medico.ExpedientesModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Panel Médico";
+}
+
+<link rel="stylesheet" href="~/css/expediente/confirmacion.css" />
+
+<div class="panel-medico">
+    <h1>Bienvenido Dr. @Model.Medico.Nombre</h1>
+    <h3>Pacientes recientes</h3>
+
+    <table class="tabla-expedientes">
+        <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Área</th>
+                <th>Síntomas</th>
+                <th>Prediagnóstico</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exp in Model.Expedientes)
+        {
+            <tr>
+                <td>@exp.Paciente?.Nombre</td>
+                <td>@exp.Departamento?.Nombre</td>
+                <td>@exp.Sintomas</td>
+                <td>@exp.Prediagnostico</td>
+                <td>@exp.Fecha_Ingreso.ToShortDateString()</td>
+                </tr>
+        }
+        </tbody>
+    </table>
+</div>

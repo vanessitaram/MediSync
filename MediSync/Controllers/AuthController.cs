@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MediSync.Controllers
 {
@@ -17,6 +19,7 @@ namespace MediSync.Controllers
         {
             _context = context;
         }
+
 
         [HttpGet("login-google")]
         public IActionResult LoginWithGoogle()
@@ -38,10 +41,8 @@ namespace MediSync.Controllers
             if (email == null)
                 return Redirect("/Pacientes/Login");
 
-            // Buscar paciente por correo
             var paciente = await _context.Pacientes.FirstOrDefaultAsync(p => p.Correo == email);
 
-            // Si no existe, lo crea automáticamente
             if (paciente == null)
             {
                 paciente = new Paciente
@@ -54,18 +55,65 @@ namespace MediSync.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            // Guardar nombre en sesión
             HttpContext.Session.SetString("PacienteNombre", paciente.Nombre);
             HttpContext.Session.SetInt32("PacienteId", paciente.Id_Paciente);
 
             return Redirect("/Expediente/Crear");
         }
 
+        // -------------------- LOGIN DE MÉDICOS (MANUAL) --------------------
+
+        [HttpPost("login-medico")]
+        public async Task<IActionResult> LoginMedico([FromForm] string correo, [FromForm] string contrasena)
+        {
+            if (string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(contrasena))
+                return BadRequest("Debe ingresar correo y contraseña.");
+
+            var medico = await _context.Medicos.FirstOrDefaultAsync(m => m.Correo == correo && m.EsActivo);
+            if (medico == null)
+                return Unauthorized("No existe un médico registrado con este correo.");
+
+            string contrasenaHash = HashPassword(contrasena);
+
+            if (medico.ContrasenaHash != contrasenaHash)
+                return Unauthorized("Contraseña incorrecta.");
+
+            HttpContext.Session.SetString("MedicoNombre", medico.Nombre);
+            HttpContext.Session.SetInt32("MedicoId", medico.Id_Medico);
+            HttpContext.Session.SetInt32("DepartamentoId", medico.Id_Departamento ?? 0);
+
+            return Redirect("/Medico/Panel");
+        }
+
+        // -------------------- CAMBIO DE CONTRASEÑA --------------------
+
+        [HttpPost("cambiar-contrasena")]
+        public async Task<IActionResult> CambiarContrasena([FromForm] int idMedico, [FromForm] string nuevaContrasena)
+        {
+            var medico = await _context.Medicos.FindAsync(idMedico);
+            if (medico == null) return NotFound("Médico no encontrado.");
+
+            medico.ContrasenaHash = HashPassword(nuevaContrasena);
+            await _context.SaveChangesAsync();
+
+            return Ok("Contraseña actualizada correctamente.");
+        }
+
+
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
             return Redirect("/");
+        }
+
+
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
         }
     }
 }

@@ -1,4 +1,4 @@
-using MediSync.Data;
+ï»¿using MediSync.Data;
 using MediSync.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -6,24 +6,25 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ==================== CONFIGURACIÓN DE SERVICIOS ====================
 builder.Services.AddHttpClient();
-
-// Conexión a la base de datos MediSync
 builder.Services.AddDbContext<MediSyncContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MediSyncConnection")));
 
-// Inyección del servicio de IA
 builder.Services.AddScoped<IAService>();
-
-// Controladores y páginas Razor
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
+builder.Services.AddHttpContextAccessor();
 
-// Sesiones
-builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.None; // âœ… Permite localhost
+});
 
-// Autenticación con Google
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -36,13 +37,10 @@ builder.Services.AddAuthentication(options =>
     googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 });
 
-// Swagger (solo desarrollo)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-// ==================== PIPELINE DE APLICACIÓN ====================
 
 if (app.Environment.IsDevelopment())
 {
@@ -55,14 +53,12 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseSession();
 
 app.MapControllers();
 app.MapRazorPages();

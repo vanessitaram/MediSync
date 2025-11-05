@@ -1,5 +1,4 @@
-﻿
-@page
+﻿@page
 @model MediSync.Pages.Expediente.CrearModel
 @{
     Layout = null;
@@ -18,27 +17,36 @@
                 <strong>@Model.NombrePaciente</strong>
             </div>
 
-            <div class="historial-icon" title="Ver historial" id="openHistorial">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
-                    <path d="M12 8v5l3.5 2.1.8-1.2-2.8-1.7V8h-1.5zm0-6C6.48 2 2 6.48 2 12h2a8 8 0 1 1 8 8v2a10 10 0 1 0 0-20zm-1 18H7v2h4v-2z" />
-                </svg>
+            <div class="historial-icon" title="Cerrar sesión">
+                <a asp-page="/Pacientes/Login" asp-page-handler="Logout" style="color:white;text-decoration:none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="white" viewBox="0 0 24 24">
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zm3-10H5c-1.1 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.9 2 2 2h14c1.1
+                        0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+                    </svg>
+                </a>
             </div>
         </div>
 
-
-        <!-- TITULO -->
         <div class="sintoma-header">
             <h1>Registro de Síntomas</h1>
-            <p>Describe lo que estás sintiendo o los síntomas que observas</p>
+            <p>Describe lo que estás sintiendo y selecciona el área médica correspondiente</p>
         </div>
 
-        <!-- FORMULARIO -->
         <form method="post" class="sintoma-form">
+            <label for="Departamento">Área médica</label>
+            <select id="Departamento"
+                    asp-for="NuevoExpediente.Id_Departamento"
+                    asp-items="Model.Departamentos"
+                    required>
+                <option value="">Selecciona un área</option>
+            </select>
+
             <label for="Sintomas">Síntomas detectados</label>
             <textarea id="Sintomas"
                       asp-for="NuevoExpediente.Sintomas"
                       placeholder="Ejemplo: Dolor de cabeza, fiebre, mareo..."
-                      rows="5"></textarea>
+                      rows="5"
+                      required></textarea>
 
             <div class="estado-box">
                 <div class="estado-text">
@@ -53,19 +61,8 @@
 
         @if (!string.IsNullOrEmpty(Model.Mensaje))
         {
-        <div class="alerta">@Model.Mensaje</div>
+            <div class="alerta">@Model.Mensaje</div>
         }
-    </div>
-</div>
-<div id="modalHistorial" class="modal-historial">
-    <div class="modal-content">
-        <h3>Historial de Síntomas</h3>
-        <ul>
-            <li><strong>12/10/2025:</strong> Dolor de cabeza, fatiga leve</li>
-            <li><strong>03/10/2025:</strong> Tos seca, temperatura 38°C</li>
-            <li><strong>24/09/2025:</strong> Dolor muscular y náuseas</li>
-        </ul>
-        <button id="closeHistorial">Cerrar</button>
     </div>
 </div>
 

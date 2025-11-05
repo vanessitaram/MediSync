@@ -53,7 +53,7 @@ namespace MediSync.Controllers
             var paciente = await _context.Pacientes
                 .FirstOrDefaultAsync(x =>
                     (!string.IsNullOrEmpty(cred.Correo) && x.Correo == cred.Correo) ||
-                    (cred.Telefono.HasValue && x.Telefono == x.Telefono)
+                    (cred.Telefono.HasValue && x.Telefono == cred.Telefono)
                 );
 
             if (paciente == null)
@@ -64,6 +64,9 @@ namespace MediSync.Controllers
 
             Console.WriteLine($"[LOGIN DEBUG] Paciente encontrado: {paciente.Nombre}");
 
+            HttpContext.Session.SetInt32("PacienteId", paciente.Id_Paciente);
+            HttpContext.Session.SetString("PacienteNombre", paciente.Nombre ?? "Sin nombre");
+
             return Ok(new
             {
                 mensaje = "Acceso correcto",
@@ -71,6 +74,7 @@ namespace MediSync.Controllers
                 nombre = paciente.Nombre
             });
         }
+
 
 
     }

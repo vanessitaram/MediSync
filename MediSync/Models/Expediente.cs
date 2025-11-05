@@ -25,5 +25,21 @@ namespace MediSync.Models
 
         [Column(TypeName = "nvarchar(30)")]
         public string Estado { get; set; } = "En proceso";
+
+        public int? Id_Medico { get; set; }
+
+        public int? Id_Departamento { get; set; }
+
+        [Column(TypeName = "nvarchar(max)")]
+        public string? Prediagnostico { get; set; }
+
+        [ForeignKey("Id_Paciente")]
+        public Paciente? Paciente { get; set; }
+
+        [ForeignKey("Id_Medico")]
+        public Medico? Medico { get; set; }
+
+        [ForeignKey("Id_Departamento")]
+        public Departamento? Departamento { get; set; }
     }
 }
